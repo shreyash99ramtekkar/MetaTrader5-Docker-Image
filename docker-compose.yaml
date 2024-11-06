@@ -1,7 +1,8 @@
 services:
   mt5:
     build: .
-    image: gmag11/metatrader5_vnc
+    # image: gmag11/metatrader5_vnc
+    image: sramtekkar/metatrader5
     container_name: mt5
     volumes:
       - ./config:/config
