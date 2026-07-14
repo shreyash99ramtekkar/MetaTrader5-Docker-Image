@@ -9,6 +9,9 @@ LABEL maintainer="gmartin"
 ENV TITLE=Metatrader5
 ENV WINEPREFIX="/config/.wine"
 
+# Remove stale nodesource repo baked into the base image (deb.nodesource.com no longer serves node_18.x/jammy)
+RUN rm -f /etc/apt/sources.list.d/nodesource.list
+
 # Update package lists and upgrade packages
 RUN apt-get update && apt-get upgrade -y
 
@@ -29,8 +32,14 @@ RUN dpkg --add-architecture i386 \
     && apt-get update
 
 # Install WineHQ stable package and dependencies
-RUN apt-get install --install-recommends -y \
-    winehq-stable \
+# Pinned to 10.0.0.0~jammy-1: Wine 11.0 trips MetaTrader5's anti-debug check
+# ("A debugger has been found running in your system") and aborts install.
+RUN WINE_VERSION="10.0.0.0~jammy-1" \
+    && apt-get install --install-recommends -y \
+    winehq-stable=$WINE_VERSION \
+    wine-stable=$WINE_VERSION \
+    wine-stable-amd64=$WINE_VERSION \
+    wine-stable-i386=$WINE_VERSION \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
