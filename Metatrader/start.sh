@@ -4,10 +4,10 @@
 mt5file='/config/.wine/drive_c/Program Files/MetaTrader 5/terminal64.exe'
 WINEPREFIX='/config/.wine'
 wine_executable="wine"
-metatrader_version="5.0.5735"
+metatrader_version="5.0.36"
 mt5server_port="8001"
 mono_url="https://dl.winehq.org/wine/wine-mono/8.0.0/wine-mono-8.0.0-x86.msi"
-python_url="https://www.python.org/ftp/python/3.9.0/python-3.9.0-amd64.exe"
+python_url="https://www.python.org/ftp/python/3.9.0/python-3.9.0.exe"
 mt5setup_url="https://download.mql5.com/cdn/web/metaquotes.software.corp/mt5/mt5setup.exe"
 
 # Function to display a graphical message
@@ -114,7 +114,7 @@ fi
 
 # Start the MT5 server on Linux
 show_message "[7/7] Starting the mt5linux server..."
-$wine_executable python -m mt5linux --host 0.0.0.0 -p $mt5server_port &
+python3 -m mt5linux --host 0.0.0.0 -p $mt5server_port -w $wine_executable python.exe &
 
 # Give the server some time to start
 sleep 5
