@@ -96,14 +96,15 @@ if ! is_wine_python_package_installed "MetaTrader5==$metatrader_version"; then
 fi
 # Install mt5linux library in Windows if not installed
 show_message "[6/7] Checking and installing mt5linux library in Windows if necessary"
-if ! is_wine_python_package_installed "mt5linux"; then
-    $wine_executable python -m pip install --no-cache-dir mt5linux
+# Pin 0.1.9: newer releases (1.x) use Python 3.12-only f-string syntax that breaks on the container's Python 3.10.
+if ! is_wine_python_package_installed "mt5linux==0.1.9"; then
+    $wine_executable python -m pip install --no-cache-dir mt5linux==0.1.9
 fi
 
 # Install mt5linux library in Linux if not installed
 show_message "[6/7] Checking and installing mt5linux library in Linux if necessary"
-if ! is_python_package_installed "mt5linux"; then
-    pip install --upgrade --no-cache-dir mt5linux
+if ! is_python_package_installed "mt5linux==0.1.9"; then
+    pip install --no-cache-dir mt5linux==0.1.9
 fi
 
 # Install pyxdg library in Linux if not installed
